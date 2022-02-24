@@ -224,7 +224,7 @@ def plot_dates_last_commits_per_fork(dates_last_commit, forks_filtered_sorted):
 
 # main
 def main():
-    input_repo = st.text_input('Enter a repo name:')
+    input_repo = st.text_input('Enter a repo name or url:')
     input_repo = input_repo.strip().replace('https://github.com/', '')
     if input_repo:
         # add it to the url
