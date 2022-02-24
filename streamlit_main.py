@@ -242,6 +242,9 @@ def main():
     input_repo = st.text_input('Enter a repo name or url:')
     input_repo = input_repo.strip().replace('https://github.com/', '')
     if input_repo:
+        if not '/' in input_repo:
+            st.error('Please enter a valid repo url')
+            st.stop()
         # add it to the url
         print("input_repo:", input_repo)
         user = input_repo.split('/')[0]
