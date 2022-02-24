@@ -62,5 +62,3 @@ PRs are welcome.
 ## License
 MIT
 
-## Author
-[Alexandr Skurikhin](http://skurih.in)
