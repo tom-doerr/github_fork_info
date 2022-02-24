@@ -198,8 +198,8 @@ def plot_num_commits_per_fork_sorted(num_diff_commits_per_fork, forks_filtered_s
     num_commits_list = []
     for fork in forks_filtered_sorted:
         num_commits_list.append(num_diff_commits_per_fork[fork])
-    # plot using plotly
-    fig = px.bar(x=forks_filtered_sorted, y=num_commits_list)
+    # plot using plotly and add labels
+    fig = px.bar(repository=forks_filtered_sorted, commits=num_commits_list, labels={'commits':'Number of commits', 'repository':'Repository'})
     st.plotly_chart(fig)
 
 
