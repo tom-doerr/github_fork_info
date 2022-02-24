@@ -46,7 +46,7 @@ else:
         # return response.json()
 
 # all pages
-@st.cache(ttl=3600)
+@st.cache(ttl=3600, suppress_st_warning=True)
 def get_forks(repo):
     url = 'https://api.github.com/repos/{}/forks'.format(repo)
     forks = []
@@ -83,7 +83,7 @@ def print_fork_urls(forks):
     for fork in forks:
         st.write(fork['html_url'])
 
-@st.cache(ttl=3600)
+@st.cache(ttl=3600, suppress_st_warning=True)
 def get_commits(repo):
     '''
     Get all commits for a repo.
@@ -104,7 +104,7 @@ def get_commits(repo):
             url = None
     return commits
 
-@st.cache(ttl=3600)
+@st.cache(ttl=3600, suppress_st_warning=True)
 def get_commits_forks(forks):
     repos = {}
     for fork in forks:
