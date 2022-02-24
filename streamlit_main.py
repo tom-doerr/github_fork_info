@@ -203,7 +203,6 @@ def get_forks_filtered_sorted(repo_diff_commits, num_diff_commits_per_fork):
     return forks_filtered_sorted
 
 def plot_num_commits_per_fork_sorted(num_diff_commits_per_fork, forks_filtered_sorted):
-    print("num_diff_commits_per_fork:", num_diff_commits_per_fork)
     num_commits_list = []
     for fork in forks_filtered_sorted:
         num_commits_list.append(num_diff_commits_per_fork[fork])
@@ -278,6 +277,10 @@ def main():
     # st.write(forks_with_commits)
     print_forks_with_commits_sorted(forks_with_commits, num_diff_commits_per_fork)
     forks_filtered_sorted = get_forks_filtered_sorted(repo_diff_commits, num_diff_commits_per_fork)
+    if not forks_filtered_sorted:
+        st.write(f'No forks with commits for {base_repo}')
+        st.stop()
+
     print("forks_filtered_sorted:", forks_filtered_sorted)
     plot_num_commits_per_fork_sorted(num_diff_commits_per_fork, forks_filtered_sorted)
     print_commit_messages_per_fork(repo_diff_commits)
