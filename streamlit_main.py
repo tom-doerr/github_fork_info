@@ -52,6 +52,8 @@ def get_forks(repo):
     forks = []
     while url:
         response = requests.get(url, headers=headers)
+        data = json.loads(response.text)
+        check_rate_limit_exceeded(data)
         response.raise_for_status()
         forks.extend(response.json())
         if 'next' in response.links:
@@ -71,6 +73,8 @@ def print_forks(forks):
 def get_url_fork(repo):
     url = 'https://api.github.com/repos/{}/forks'.format(repo)
     response = requests.get(url, headers=headers)
+    data = json.loads(response.text)
+    check_rate_limit_exceeded(data)
     response.raise_for_status()
     return response.json()
 
@@ -89,6 +93,9 @@ def get_commits(repo):
     commits = []
     while url:
         response = requests.get(url)
+        data = json.loads(response.text)
+        check_rate_limit_exceeded(data)
+
         # commits.extend(json.loads(response.text))
         commits.extend(response.json())
         if 'next' in response.links:
@@ -105,6 +112,8 @@ def get_commits_forks(forks):
         commits = []
         while url:
             response = requests.get(url, headers=headers)
+            data = json.loads(response.text)
+            check_rate_limit_exceeded(data)
             response.raise_for_status()
             commits.extend(response.json())
             if 'next' in response.links:
@@ -221,6 +230,13 @@ def plot_dates_last_commits_per_fork(dates_last_commit, forks_filtered_sorted):
     fig = px.scatter(x=forks_filtered_sorted, y=dates_last_commit_list)
     st.plotly_chart(fig)
 
+def check_rate_limit_exceeded(json_response):
+    if 'message' in json_response and 'rate limit exceeded' in json_response['message']:
+        print(json_response['message'])
+        # print in streamlit as error
+        st.error(json_response['message'])
+        # stop
+        st.stop()
 
 # main
 def main():
