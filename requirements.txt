@@ -1,2 +1,2 @@
-import matplotlib
-import plotly
+matplotlib
+plotly
