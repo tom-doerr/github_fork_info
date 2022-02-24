@@ -201,8 +201,25 @@ def plot_num_commits_per_fork_sorted(num_diff_commits_per_fork, forks_filtered_s
     # plot using plotly
     fig = px.bar(x=forks_filtered_sorted, y=num_commits_list)
     st.plotly_chart(fig)
-    # plot using matplotlib
 
+
+def get_dates_last_commit(repo_diff_commits):
+    dates_last_commit = {}
+    for fork in repo_diff_commits:
+        if repo_diff_commits[fork]:
+            dates_last_commit[fork] = repo_diff_commits[fork][0]['commit']['author']['date']
+    return dates_last_commit
+
+def plot_dates_last_commits_per_fork(dates_last_commit, forks_filtered_sorted):
+    st.header('Dates of last commit per fork')
+    dates_last_commit_list = []
+    for fork in forks_filtered_sorted:
+        dates_last_commit_list.append(dates_last_commit[fork])
+    # plot on a timeline
+    # fig = px.line(x=forks_filtered_sorted, y=dates_last_commit_list)
+    # points
+    fig = px.scatter(x=forks_filtered_sorted, y=dates_last_commit_list)
+    st.plotly_chart(fig)
 
 
 # main
@@ -247,6 +264,9 @@ def main():
     print("forks_filtered_sorted:", forks_filtered_sorted)
     plot_num_commits_per_fork_sorted(num_diff_commits_per_fork, forks_filtered_sorted)
     print_commit_messages_per_fork(repo_diff_commits)
+    dates_last_commit = get_dates_last_commit(repo_diff_commits)
+    print("dates_last_commit:", dates_last_commit)
+    plot_dates_last_commits_per_fork(dates_last_commit, forks_filtered_sorted)
 
 
     # st.write('Diff commits:')
